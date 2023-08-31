@@ -1,116 +1,21 @@
 import json
-from typing import List, Any
+
+import requests
+from bs4 import BeautifulSoup
+from pymongo import MongoClient
 from requests.exceptions import RequestException
 
-from bs4 import BeautifulSoup, ResultSet
 from sitemap import Sitemap
-import requests
-from pymongo import MongoClient
-
-import sitemap
 
 client = MongoClient("mongodb://localhost:27017")
 db = client["news"]
 collection = db["articles"]
 
 
-class Article:
-    def __init__(self, site, url, title, description, keywords, author, published_time, modified_time, article_section,
-                 word_count, language, date_created):
-        self.site = site
-        self.url = url
-        self.title = title
-        self.description = description
-        self.keywords = keywords
-        self.author = author
-        self.published_time = published_time
-        self.modified_time = modified_time
-        self.article_section = article_section
-        self.word_count = word_count
-        self.language = language
-        self.date_created = date_created
-
-    # Getters
-
-    def get_site(self):
-        return self.site
-
-    def get_url(self):
-        return self.url
-
-    def get_title(self):
-        return self.title
-
-    def get_description(self):
-        return self.description
-
-    def get_keywords(self):
-        return self.keywords
-
-    def get_author(self):
-        return self.author
-
-    def get_published_time(self):
-        return self.published_time
-
-    def get_modified_time(self):
-        return self.modified_time
-
-    def get_article_section(self):
-        return self.article_section
-
-    def get_word_count(self):
-        return self.word_count
-
-    def get_language(self):
-        return self.language
-
-    def get_date_created(self):
-        return self.date_created
-
-    # Setters
-
-    def set_site(self, site):
-        self.site = site
-
-    def set_url(self, url):
-        self.url = url
-
-    def set_title(self, title):
-        self.title = title
-
-    def set_description(self, description):
-        self.description = description
-
-    def set_keywords(self, keywords):
-        self.keywords = keywords
-
-    def set_author(self, author):
-        self.author = author
-
-    def set_published_time(self, published_time):
-        self.published_time = published_time
-
-    def set_modified_time(self, modified_time):
-        self.modified_time = modified_time
-
-    def set_article_section(self, article_section):
-        self.article_section = article_section
-
-    def set_word_count(self, word_count):
-        self.word_count = word_count
-
-    def set_language(self, language):
-        self.language = language
-
-    def set_date_created(self, date_created):
-        self.date_created = date_created
-
-
 class DataExtractor:
     def extract_locs_from_sitemap(self, xml_sitemaps):
         locs = []
-        obj =DataExtractor()
+        obj = DataExtractor()
         for sitemap_url in xml_sitemaps:
             response = requests.get(sitemap_url)
             if response.status_code == 200:
@@ -135,7 +40,7 @@ class DataExtractor:
         read_timeout = 500  # seconds
 
         try:
-            response = requests.get(url,timeout=(connect_timeout,read_timeout))
+            response = requests.get(url, timeout=(connect_timeout, read_timeout))
             html_content = response.content
             soup = BeautifulSoup(html_content, "lxml")
             # Find all script tags containing JSON-LD data
