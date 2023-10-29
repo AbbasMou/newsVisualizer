@@ -11,5 +11,7 @@ A dashboard page that contains 3 differnet charts using Highcharts.js libarary
 4. dasboard.html : this file contains html and js ; the js code is from  highcharts.js charts library , these charts used data fetched from the flask api and make 3 differnet charts 
 
 ## ScreenShots 
+![screenshot 1 ](/images/sc1.png)
 
+![screenshot 2 ](/images/sc2.png)
 
